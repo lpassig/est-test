@@ -8,7 +8,7 @@ set -eux
 START_VAULT="yes"
 
 TMPDIR=/var/aziot/certs
-CERTDIR="${TMPDIR}/vault-ca/"
+CERTDIR="${TMPDIR}"
 mkdir -p "${CERTDIR}"
 
 export VAULT_ADDR="https://127.0.0.1:8200"
