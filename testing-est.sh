@@ -7,7 +7,7 @@ set -eux
 
 START_VAULT="yes"
 
-TMPDIR=/var/aziot/certs
+TMPDIR=/var/aziot/certs/
 CERTDIR="${TMPDIR}"
 mkdir -p "${CERTDIR}"
 
