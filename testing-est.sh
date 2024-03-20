@@ -173,6 +173,8 @@ vault write -format=json pki_int/issue/est-clients \
 jq -r .data.certificate "${TMPDIR}/est-client.json" > "${TMPDIR}/est-client.cert"
 jq -r .data.private_key "${TMPDIR}/est-client.json" > "${TMPDIR}/est-client.key"
 
+openssl x509 -in CA_cert.crt -out CA_cert.crt.pem -outform PEM
+
 cat <<EOF
 ##################################################
 ##################################################
