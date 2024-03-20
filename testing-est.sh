@@ -133,7 +133,7 @@ UP_ACCESSOR=$(vault read -field=accessor sys/auth/userpass)
 # Setup a role for est-clients
 ###
 vault write pki_int/roles/est-clients \
-     allowed_domains="docker.internal,local" \
+     allowed_domains=".internal,local" \
      allow_subdomains=true \
      no_store="false" \
      max_ttl="720h" \
