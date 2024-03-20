@@ -26,7 +26,7 @@ if [ "${START_VAULT}" == "yes" ]; then
     fi
     rm -f "${TMPDIR}/vault.log"
 
-    vault server -dev-tls -dev-root-token-id="${VAULT_TOKEN}" -log-level=debug -dev-tls-cert-dir="${CERTDIR}" -dev-tls-san=host.docker.internal 2> "${TMPDIR}/vault.log" &
+    vault server -dev-tls -dev-root-token-id="${VAULT_TOKEN}" -log-level=debug -dev-tls-cert-dir="${CERTDIR}" -dev-listen-address "0.0.0.0:8200" -dev-tls-san=host.docker.internal 2> "${TMPDIR}/vault.log" &
     while ! nc -w 1 -d localhost 8200; do sleep 1; done
 fi
 
@@ -173,7 +173,10 @@ vault write -format=json pki_int/issue/est-clients \
 jq -r .data.certificate "${TMPDIR}/est-client.json" > "${TMPDIR}/est-client.cert"
 jq -r .data.private_key "${TMPDIR}/est-client.json" > "${TMPDIR}/est-client.key"
 
-openssl x509 -in CA_cert.crt -out CA_cert.crt.pem -outform PEM
+# Create the necessary PEM files
+openssl x509 -in "${CERTDIR}CA_cert.crt" -out "${CERTDIR}CA_cert.crt.pem" -outform PEM
+openssl x509 -in "${CERTDIR}est-client.cert" -out "${CERTDIR}est-client.pem" -outform PEM
+openssl x509 -in "${CERTDIR}est-client.key" -out "${CERTDIR}CA_cert.crt.pem" -outform PEM
 
 cat <<EOF
 ##################################################
@@ -187,6 +190,7 @@ export VAULT_TOKEN="${VAULT_TOKEN}"
 export VAULT_CACERT="${VAULT_CACERT}"
 export EST_USER="${EST_USER}"
 export EST_PASS="${EST_PASS}"
+export VAULT_DEV_LISTEN_ADDRESS="${VAULT_ADDR}"
 
 You can use the GlobalSign EST client (https://github.com/globalsign/est/)
 against this Vault server
