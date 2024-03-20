@@ -114,7 +114,7 @@ vault write auth/cert/certs/est-ca \
     token_policies="access-est" \
     certificate="@${TMPDIR}/intermediate.cert.pem" \
     token_type="batch" \
-    allowed_common_names="client.docker.internal" 
+    allowed_common_names="bootstrap.internal" 
 
 CERT_ACCESSOR=$(vault read -field=accessor sys/auth/cert)
 
@@ -168,7 +168,7 @@ vault secrets tune \
   pki_int
 
 vault write -format=json pki_int/issue/est-clients \
-  common_name="client.docker.internal" &> "${TMPDIR}/est-client.json"
+  common_name="bootstrap.internal" &> "${TMPDIR}/est-client.json"
 
 jq -r .data.certificate "${TMPDIR}/est-client.json" > "${TMPDIR}/est-client.cert"
 jq -r .data.private_key "${TMPDIR}/est-client.json" > "${TMPDIR}/est-client.key"
