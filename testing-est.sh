@@ -167,6 +167,7 @@ vault secrets tune \
   -delegated-auth-accessors="${UP_ACCESSOR}" \
   pki_int
 
+# Create bootstrap cert which is valid for 5 years
 vault write -format=json pki_int/issue/est-clients \
   common_name="bootstrap.internal" ttl=43800h &> "${TMPDIR}/est-client.json"
 
