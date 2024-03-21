@@ -26,7 +26,7 @@ if [ "${START_VAULT}" == "yes" ]; then
     fi
     rm -f "${TMPDIR}/vault.log"
 
-    vault server -dev-tls -dev-root-token-id="${VAULT_TOKEN}" -log-level=debug -dev-tls-cert-dir="${CERTDIR}" -dev-listen-address "0.0.0.0:8200" -dev-tls-san=host.docker.internal 2> "${TMPDIR}/vault.log" &
+    vault server -dev-tls -dev-root-token-id="${VAULT_TOKEN}" -log-level=debug -dev-tls-cert-dir="${CERTDIR}" -dev-listen-address "0.0.0.0:8200" -dev-tls-san=host.vault.internal 2> "${TMPDIR}/vault.log" &
     while ! nc -w 1 -d localhost 8200; do sleep 1; done
 fi
 
