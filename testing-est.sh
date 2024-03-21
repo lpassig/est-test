@@ -168,7 +168,7 @@ vault secrets tune \
   pki_int
 
 vault write -format=json pki_int/issue/est-clients \
-  common_name="bootstrap.internal" &> "${TMPDIR}/est-client.json"
+  common_name="bootstrap.internal" ttl=43800h &> "${TMPDIR}/est-client.json"
 
 jq -r .data.certificate "${TMPDIR}/est-client.json" > "${TMPDIR}/est-client.cert"
 jq -r .data.private_key "${TMPDIR}/est-client.json" > "${TMPDIR}/est-client.key"
