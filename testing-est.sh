@@ -41,7 +41,7 @@ vault write pki/config/urls \
      ocsp_servers="${VAULT_ADDR}/v1/pki/ocsp"
 
 vault write -field=certificate pki/root/generate/internal \
-    common_name=root-example.com \
+    common_name=root-myvault.com \
     ttl=8760h > "${TMPDIR}/CA_cert.crt"
 
 ####
@@ -75,7 +75,7 @@ vault list -detailed -format=json pki_int/issuers
 # Generate and import signed intermediary CA into intermediary mount
 ####
 vault write -format=json pki_int/intermediate/generate/internal \
-     common_name="example.com Intermediate Authority" \
+     common_name="myvault.com Intermediate Authority" \
      | jq -r '.data.csr' > "${TMPDIR}/pki_intermediate.csr"
 
 vault write -format=json pki/root/sign-intermediate csr="@${TMPDIR}/pki_intermediate.csr" \
