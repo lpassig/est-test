@@ -108,6 +108,9 @@ path "pki_int/roles/est-clients/est/*" {
 EOP
 vault policy write access-est "${TMPDIR}/est-policy"
 
+###
+# Setup cert auth
+###
 vault auth enable cert
 vault write auth/cert/certs/est-ca \
     display_name="EST Client CA" \
