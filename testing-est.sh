@@ -176,7 +176,7 @@ jq -r .data.private_key "${TMPDIR}/est-client.json" > "${TMPDIR}/est-client.key"
 # Create the necessary PEM files
 openssl x509 -in "${CERTDIR}CA_cert.crt" -out "${CERTDIR}CA_cert.crt.pem" -outform PEM
 openssl x509 -in "${CERTDIR}est-client.cert" -out "${CERTDIR}est-client.pem" -outform PEM
-openssl x509 -in "${CERTDIR}est-client.key" -out "${CERTDIR}est-client.key.pem" -outform PEM
+openssl rsa -in "${CERTDIR}est-client.key" -text > "${CERTDIR}est-client.key.pem"
 
 cat <<EOF
 ##################################################
